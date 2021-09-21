@@ -158,6 +158,11 @@ void UEyeCamNodelet::onInit() {
     cam_id_ = ANY_CAMERA;
   }
 
+  std::string ns = ros::this_node::getNamespace();
+  if (ns.size() > 1) {
+    frame_name_ = ns + "/" + frame_name_;
+  }
+
   loadIntrinsicsFile();
 
   // Setup publishers, subscribers, and services
