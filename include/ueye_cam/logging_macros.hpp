@@ -73,6 +73,16 @@
   #define WARN_STREAM(...) ROS_WARN_STREAM(__VA_ARGS__)
   #define ERROR_STREAM(...) ROS_ERROR_STREAM(__VA_ARGS__)
   #define FATAL_STREAM(...) ROS_FATAL_STREAM(__VA_ARGS__)
+  #define DEBUG_ONCE(...) ROS_DEBUG_ONCE(__VA_ARGS__)
+  #define INFO_ONCE(...) ROS_INFO_ONCE(__VA_ARGS__)
+  #define WARN_ONCE(...) ROS_WARN_ONCE(__VA_ARGS__)
+  #define ERROR_ONCE(...) ROS_ERROR_ONCE(__VA_ARGS__)
+  #define FATAL_ONCE(...) ROS_FATAL_ONCE(__VA_ARGS__)
+  #define DEBUG_STREAM_ONCE(...) ROS_DEBUG_STREAM_ONCE(__VA_ARGS__)
+  #define INFO_STREAM_ONCE(...) ROS_INFO_STREAM_ONCE(__VA_ARGS__)
+  #define WARN_STREAM_ONCE(...) ROS_WARN_STREAM_ONCE(__VA_ARGS__)
+  #define ERROR_STREAM_ONCE(...) ROS_ERROR_STREAM_ONCE(__VA_ARGS__)
+  #define FATAL_STREAM_ONCE(...) ROS_FATAL_STREAM_ONCE(__VA_ARGS__)
 
 #elif LOGGING_MACROS_TYPE == NODELET_LOGGING_MACROS
 
@@ -91,6 +101,16 @@
   #define WARN_STREAM(...) NODELET_WARN_STREAM(__VA_ARGS__)
   #define ERROR_STREAM(...) NODELET_ERROR_STREAM(__VA_ARGS__)
   #define FATAL_STREAM(...) NODELET_FATAL_STREAM(__VA_ARGS__)
+  #define DEBUG_ONCE(...) NODELET_DEBUG_ONCE(__VA_ARGS__)
+  #define INFO_ONCE(...) NODELET_INFO_ONCE(__VA_ARGS__)
+  #define WARN_ONCE(...) NODELET_WARN_ONCE(__VA_ARGS__)
+  #define ERROR_ONCE(...) NODELET_ERROR_ONCE(__VA_ARGS__)
+  #define FATAL_ONCE(...) NODELET_FATAL_ONCE(__VA_ARGS__)
+  #define DEBUG_STREAM_ONCE(...) NODELET_DEBUG_STREAM_ONCE(__VA_ARGS__)
+  #define INFO_STREAM_ONCE(...) NODELET_INFO_STREAM_ONCE(__VA_ARGS__)
+  #define WARN_STREAM_ONCE(...) NODELET_WARN_STREAM_ONCE(__VA_ARGS__)
+  #define ERROR_STREAM_ONCE(...) NODELET_ERROR_STREAM_ONCE(__VA_ARGS__)
+  #define FATAL_STREAM_ONCE(...) NODELET_FATAL_STREAM_ONCE(__VA_ARGS__)
 
 #else
   #include <cstdio>
@@ -106,6 +126,17 @@
   #define WARN_STREAM(...) std::cerr << "WARN > " << __VA_ARGS__ << std::endl
   #define ERROR_STREAM(...) std::cerr << "ERROR> " << __VA_ARGS__ << std::endl
   #define FATAL_STREAM(...) std::cerr << "FATAL> " << __VA_ARGS__ << std::endl
+  // _ONCE IS IGNORED IN THIS CASE
+  #define DEBUG_ONCE(...) fprintf(stdout, "DEBUG> "); fprintf(stdout, __VA_ARGS__); fprintf(stdout, "\n")
+  #define INFO_ONCE(...) fprintf(stdout, "INFO > "); fprintf(stdout, __VA_ARGS__); fprintf(stdout, "\n")
+  #define WARN_ONCE(...) fprintf(stderr, "WARN > "); fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\n")
+  #define ERROR_ONCE(...) fprintf(stderr, "ERROR> "); fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\n")
+  #define FATAL_ONCE(...) fprintf(stderr, "FATAL> "); fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\n")
+  #define DEBUG_STREAM_ONCE(...) std::cout << "DEBUG> " << __VA_ARGS__ << std::endl
+  #define INFO_STREAM_ONCE(...) std::cout << "INFO > " << __VA_ARGS__ << std::endl
+  #define WARN_STREAM_ONCE(...) std::cerr << "WARN > " << __VA_ARGS__ << std::endl
+  #define ERROR_STREAM_ONCE(...) std::cerr << "ERROR> " << __VA_ARGS__ << std::endl
+  #define FATAL_STREAM_ONCE(...) std::cerr << "FATAL> " << __VA_ARGS__ << std::endl
 
 #endif
 
