@@ -1048,12 +1048,13 @@ const char* UEyeCamDriver::processNextFrame(UINT timeout_ms) {
   UINT events[] = {IS_SET_EVENT_FRAME};
   IS_WAIT_EVENTS wait_events = {events, 1, FALSE, timeout_ms, 0, 0};
   if ((is_err = is_Event(cam_handle_, IS_EVENT_CMD_WAIT, &wait_events, sizeof(wait_events))) != IS_SUCCESS) {
-    if ((is_err == IS_TIMED_OUT) && !extTriggerModeActive()) {
+    if (false) {
+    //if ((is_err == IS_TIMED_OUT) && !extTriggerModeActive()) {
       ERROR_STREAM_ONCE("Timed out while acquiring image from [" << cam_name_ <<
         "] (" << err2str(is_err) << ")");
       ERROR_STREAM_ONCE("If this is occurring frequently, see https://github.com/anqixu/ueye_cam/issues/6#issuecomment-49925549");
       handleTimeout();
-    } else {
+    } else if (false) {
       ERROR_STREAM("Failed to acquire image from [" << cam_name_ <<
         "] (" << err2str(is_err) << ")");
     }
