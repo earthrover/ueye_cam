@@ -1170,12 +1170,15 @@ void UEyeCamNodelet::frameGrabLoop() {
         output_rate_mutex_.unlock();
         if (throttle_curr_frame) continue;
 
-        // cam_info_msg_ptr->width = static_cast<unsigned int>(cam_params_.image_width / cam_sensor_scaling_rate_ / cam_binning_rate_ / cam_subsampling_rate_);
-        // cam_info_msg_ptr->height = static_cast<unsigned int>(cam_params_.image_height / cam_sensor_scaling_rate_ / cam_binning_rate_ / cam_subsampling_rate_);
-        cam_info_msg_ptr->width = static_cast<unsigned int>(cam_params_.image_width);
-        cam_info_msg_ptr->height = static_cast<unsigned int>(cam_params_.image_height);
-        cam_info_msg_ptr->binning_x = static_cast<unsigned int>(cam_binning_rate_ * cam_subsampling_rate_);
-        cam_info_msg_ptr->binning_y = cam_info_msg_ptr->binning_x;
+        // Previous to preprocessing optimization we used this for some reason (NOT STANDARD)
+        // cam_info_msg_ptr->width = static_cast<unsigned int>(cam_params_.image_width);
+        // cam_info_msg_ptr->height = static_cast<unsigned int>(cam_params_.image_height);
+        // cam_info_msg_ptr->binning_x = static_cast<unsigned int>(cam_binning_rate_ * cam_subsampling_rate_);
+        // cam_info_msg_ptr->binning_y = cam_info_msg_ptr->binning_x;
+
+        // This is the standard, following REP 104 if you specify binning it means that others MUST do binning, no that binning is done to generate the image
+        cam_info_msg_ptr->width = static_cast<unsigned int>(cam_params_.image_width / cam_sensor_scaling_rate_ / cam_binning_rate_ / cam_subsampling_rate_);
+        cam_info_msg_ptr->height = static_cast<unsigned int>(cam_params_.image_height / cam_sensor_scaling_rate_ / cam_binning_rate_ / cam_subsampling_rate_);
 
         // Copy pixel content from internal frame buffer to ROS image
         if (!fillMsgData(*img_msg_ptr)) continue;
