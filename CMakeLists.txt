@@ -26,6 +26,8 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   camera_calibration_parsers
   camera_info_manager
+  message_generation
+  std_msgs
   )
 catkin_destinations() # define ${CATKIN_PACKAGE_SHARE_DESTINATION}
 
@@ -73,10 +75,20 @@ generate_dynamic_reconfigure_options(
   cfg/UEyeCam.cfg
   )
 
+add_service_files (
+  FILES
+  SetExposure.srv
+)
+
+generate_messages(
+   DEPENDENCIES
+   std_msgs
+)
+
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${UEYECAM_LIB_NAME} ${UEYECAM_NODELET_NAME}
-  CATKIN_DEPENDS roscpp nodelet dynamic_reconfigure image_transport sensor_msgs camera_calibration_parsers camera_info_manager
+  CATKIN_DEPENDS roscpp nodelet dynamic_reconfigure image_transport sensor_msgs camera_calibration_parsers camera_info_manager std_msgs message_runtime
   )
 
 include_directories(
@@ -91,7 +103,7 @@ target_link_libraries(${UEYECAM_LIB_NAME} ${catkin_LIBRARIES} ${UEYE_LIBRARY})
 
 add_library(${UEYECAM_NODELET_NAME} ${UEYECAM_NODELET_SOURCES} ${UEYECAM_NODELET_HEADERS})
 target_link_libraries(${UEYECAM_NODELET_NAME} ${catkin_LIBRARIES} ${UEYECAM_LIB_NAME})
-add_dependencies(${UEYECAM_NODELET_NAME} ${PROJECT_NAME}_gencfg)
+add_dependencies(${UEYECAM_NODELET_NAME} ${PROJECT_NAME}_gencfg ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 add_executable(check_ueye_api src/check_ueye_api.cpp)
 target_link_libraries(check_ueye_api ${catkin_LIBRARIES})
