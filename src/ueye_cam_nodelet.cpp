@@ -179,9 +179,7 @@ void UEyeCamNodelet::onInit() {
   }
 
 
-  // TODO: Initialize exposure service
-  exposure_srv_ =
-      local_nh.advertiseService("exposure", &UEyeCamNodelet::exposureCallback, this);
+  exposure_srv_ = local_nh.advertiseService("exposure", &UEyeCamNodelet::exposureCallback, this);
 
   // Setup dynamic reconfigure server
   ros_cfg_ = new ReconfigureServer(ros_cfg_mutex_, local_nh);
@@ -228,19 +226,15 @@ void UEyeCamNodelet::onInit() {
 
 bool UEyeCamNodelet::exposureCallback(ueye_cam::SetExposure::Request& req,
                                       ueye_cam::SetExposure::Response& _) {
-    // TODO: Create exposure callback that
     double exposure_ms = double(req.exposure_ms);
 
-    // TODO: and if exposure != prev_exposure
     if (cam_params_.exposure == exposure_ms) return true;
 
     bool auto_exposure = cam_params_.auto_exposure;
     double auto_exposure_ref = cam_params_.auto_exposure_reference;
 
-    // TODO: calls setExposure
     bool res = setExposure(auto_exposure, auto_exposure_ref, exposure_ms) != IS_SUCCESS;
 
-    // TODO: and sets cfg_sync_requested_ = true;
     if (res) {
         cam_params_.exposure = exposure_ms;
         cfg_sync_requested_ = true;
