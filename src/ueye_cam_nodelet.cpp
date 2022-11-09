@@ -178,6 +178,9 @@ void UEyeCamNodelet::onInit() {
     return;
   }
 
+
+  exposure_srv_ = local_nh.advertiseService("exposure", &UEyeCamNodelet::exposureCallback, this);
+
   // Setup dynamic reconfigure server
   ros_cfg_ = new ReconfigureServer(ros_cfg_mutex_, local_nh);
   ReconfigureServer::CallbackType f;
@@ -221,6 +224,24 @@ void UEyeCamNodelet::onInit() {
       );
 }
 
+bool UEyeCamNodelet::exposureCallback(ueye_cam::SetExposure::Request& req,
+                                      ueye_cam::SetExposure::Response& _) {
+    double exposure_ms = double(req.exposure_ms);
+
+    if (cam_params_.exposure - exposure_ms < 0.0001) return true;
+
+    bool auto_exposure = cam_params_.auto_exposure;
+    double auto_exposure_ref = cam_params_.auto_exposure_reference;
+
+    bool res = setExposure(auto_exposure, auto_exposure_ref, exposure_ms) == IS_SUCCESS;
+
+    if (res) {
+        cam_params_.exposure = exposure_ms;
+        cfg_sync_requested_ = true;
+    }
+
+    return res;
+}
 
 INT UEyeCamNodelet::parseROSParams(ros::NodeHandle& local_nh) {
   bool hasNewParams = false;

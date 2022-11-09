@@ -58,6 +58,7 @@
 #include <ueye_cam/UEyeCamConfig.h>
 #include <boost/thread/mutex.hpp>
 #include <ueye_cam/ueye_cam_driver.hpp>
+#include "ueye_cam/SetExposure.h"
 
 
 namespace ueye_cam {
@@ -103,6 +104,11 @@ public:
    */
   void configCallback(ueye_cam::UEyeCamConfig& config, uint32_t level);
 
+  /**
+   * Handles callbacks from exposure change service.
+   */
+  bool exposureCallback(ueye_cam::SetExposure::Request&,
+                        ueye_cam::SetExposure::Response&);
 
 protected:
   /**
@@ -185,6 +191,8 @@ protected:
   ReconfigureServer* ros_cfg_;
   boost::recursive_mutex ros_cfg_mutex_;
   bool cfg_sync_requested_;
+
+  ros::ServiceServer exposure_srv_;
 
   image_transport::CameraPublisher ros_cam_pub_;
   sensor_msgs::Image ros_image_;
