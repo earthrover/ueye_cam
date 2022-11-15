@@ -228,8 +228,6 @@ bool UEyeCamNodelet::exposureCallback(ueye_cam::SetExposure::Request& req,
                                       ueye_cam::SetExposure::Response& _) {
     double exposure_ms = double(req.exposure_ms);
 
-    if (cam_params_.exposure - exposure_ms < 0.0001) return true;
-
     bool auto_exposure = cam_params_.auto_exposure;
     double auto_exposure_ref = cam_params_.auto_exposure_reference;
 
