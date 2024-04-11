@@ -138,6 +138,15 @@ UEyeCamNodelet::~UEyeCamNodelet() {
   //}
 }
 
+std::string get_tf_prefix(const ros::NodeHandle& nh) {
+    std::string tf_prefix = "";
+    std::string tf_prefix_location;
+    if (nh.searchParam("tf_prefix", tf_prefix_location)) {
+        nh.getParam(tf_prefix_location, tf_prefix);
+        if (!tf_prefix.empty()) tf_prefix += "/";
+    }
+    return tf_prefix;
+}
 
 void UEyeCamNodelet::onInit() {
   ros::NodeHandle& nh = getNodeHandle();
@@ -158,10 +167,7 @@ void UEyeCamNodelet::onInit() {
     cam_id_ = ANY_CAMERA;
   }
 
-  std::string ns = ros::this_node::getNamespace();
-  if (ns.size() > 1) {
-    frame_name_ = ns + "/" + frame_name_;
-  }
+  frame_name_ = get_tf_prefix(local_nh) + frame_name_;
 
   loadIntrinsicsFile();
 
