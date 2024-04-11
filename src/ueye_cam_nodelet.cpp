@@ -172,10 +172,10 @@ void UEyeCamNodelet::onInit() {
   loadIntrinsicsFile();
 
   // Setup publishers, subscribers, and services
-  ros_cam_pub_ = it.advertiseCamera(cam_name_ + "/" + cam_topic_, 1);
-  set_cam_info_srv_ = nh.advertiseService(cam_name_ + "/set_camera_info",
+  ros_cam_pub_ = it.advertiseCamera(cam_topic_, 1);
+  set_cam_info_srv_ = nh.advertiseService("set_camera_info",
       &UEyeCamNodelet::setCamInfo, this);
-  timeout_pub_ = nh.advertise<std_msgs::UInt64>(cam_name_ + "/" + timeout_topic_, 1, true);
+  timeout_pub_ = nh.advertise<std_msgs::UInt64>(timeout_topic_, 1, true);
   std_msgs::UInt64 timeout_msg; timeout_msg.data = 0; timeout_pub_.publish(timeout_msg);
 
   // Initiate camera and start capture
